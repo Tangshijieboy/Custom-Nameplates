@@ -39,5 +39,4 @@ jobs:
         with:
           name: Custom-Nameplates
           path: |
-            build/libs/*.jar
-            */build/libs/*.jar
+            **/build/libs/*.jar
