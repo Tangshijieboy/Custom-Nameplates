@@ -8,10 +8,12 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build Bukkit Plugin
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout source
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -23,20 +25,19 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
-      - name: 配置 Git 环境
+      - name: Configure Git
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      - name: 赋予 Gradle Wrapper 执行权限
+      - name: Grant execute permission to Gradle wrapper
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build Bukkit plugin only
+        run: ./gradlew :platforms:bukkit:build --no-daemon
 
-      - name: 上传构建产物
+      - name: Upload Bukkit plugin jar
         uses: actions/upload-artifact@v4
         with:
           name: Custom-Nameplates
-          path: |
-            **/build/libs/*.jar
+          path: platforms/bukkit/build/libs/*bukkit*.jar
